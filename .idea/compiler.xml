@@ -9,5 +9,8 @@
         <module name="pandora_test_framework" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="pandora_test_framework" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
