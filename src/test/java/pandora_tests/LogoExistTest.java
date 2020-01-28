@@ -1,10 +1,19 @@
 package pandora_tests;
 
-public class LogoExistTest {
+import static com.codeborne.selenide.Condition.visible;
 
-    public void testLogoExist () {
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
+import org.openqa.selenium.By;
+import org.testng.annotations.Test;
+import util.runners.BasedUiTest;
 
+import static com.codeborne.selenide.Selenide.$;
 
+public class LogoExistTest extends BasedUiTest {
 
+    @Test
+    public void testLogoExist() {
+        $("").shouldBe(visible);
     }
 }
