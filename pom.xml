@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>pandora_test_framework</groupId>
+    <artifactId>pandora_test_framework</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <testng.version>7.1.0</testng.version>
+
+        <aspectj.version>1.9.5</aspectj.version>
+        <allure.maven-plugin.version>2.10.0</allure.maven-plugin.version>
+        <allure.version>2.10.0</allure.version>
+
+        <maven.site-plugin.version>3.7.1</maven.site-plugin.version>
+        <maven.clean-plugin.verions>3.1.0</maven.clean-plugin.verions>
+        <surefire.version>2.22.1</surefire.version>
+
+        <compiler.version>3.8.1</compiler.version>
+        <java.version>12</java.version>
+
+
+        <selenide.version>5.6.0</selenide.version>
+        <jackson-databind>2.9.8</jackson-databind>
+        <rest-assured>3.2.0</rest-assured>
+
+
+        <surefire.argline>
+            -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+        </surefire.argline>
+        <surefire.suiteXmlFiles>
+            src${file.separator}test${file.separator}resources${file.separator}suites${file.separator}${suite}.xml
+        </surefire.suiteXmlFiles>
+        <surefire.useDefaultListeners>false</surefire.useDefaultListeners>
+
+        <suite>smoke</suite>
+    </properties>
+    
+
+    <build>
+    <plugins>
+
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${surefire.version}</version>
+        <configuration>
+            <argLine>${surefire.argline}</argLine>
+            <suiteXmlFiles>
+                <suiteXmlFile>${surefire.suiteXmlFiles}</suiteXmlFile>
+            </suiteXmlFiles>
+            <properties>
+                <property>
+                    <name>usedefaultlisteners</name>
+                    <value>${surefire.useDefaultListeners}</value>
+                </property>
+            </properties>
+            <systemPropertyVariables>
+                <allure.results.directory>${project.build.directory}${file.separator}allure-results</allure.results.directory>
+            </systemPropertyVariables>
+        </configuration>
+            </plugin>
+
+        <plugin>
+            <artifactId>maven-clean-plugin</artifactId>
+            <configuration>
+                <filesets>
+                    <fileset>
+                        <directory>${project.basedir}${file.separator}allure-report</directory>
+                    </fileset>
+                </filesets>
+            </configuration>
+            <version>${maven.clean-plugin.verions}</version>
+        </plugin>
+
+       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+            <source>11</source>
+            <target>11</target>
+        </configuration>
+    </plugin>
+
+    </plugins>
+    </build>
+
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.codeborne</groupId>
+            <artifactId>selenide</artifactId>
+            <version>5.6.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+</project>
