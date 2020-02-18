@@ -10,24 +10,18 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <testng.version>7.1.0</testng.version>
 
-        <aspectj.version>1.9.5</aspectj.version>
-        <allure.maven-plugin.version>2.10.0</allure.maven-plugin.version>
-        <allure.version>2.10.0</allure.version>
+        <testng.version>7.0.0-beta3</testng.version>
+        <restassured.version>4.1.1</restassured.version>
+        <selenide.version>5.7.0</selenide.version>
 
-        <maven.site-plugin.version>3.7.1</maven.site-plugin.version>
-        <maven.clean-plugin.verions>3.1.0</maven.clean-plugin.verions>
-        <surefire.version>2.22.1</surefire.version>
+        <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
+        <maven.surefire.plugin.version>2.22.1</maven.surefire.plugin.version>
 
-        <compiler.version>3.8.1</compiler.version>
         <java.version>1.8</java.version>
 
-
-        <selenide.version>5.6.0</selenide.version>
-        <jackson-databind>2.9.8</jackson-databind>
-        <rest-assured>3.2.0</rest-assured>
-
+        <javafaker.version>1.0.1</javafaker.version>
+        <lombok.version>1.18.10</lombok.version>
 
         <surefire.argline>
             -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
@@ -37,18 +31,35 @@
         </surefire.suiteXmlFiles>
         <surefire.useDefaultListeners>false</surefire.useDefaultListeners>
 
+        <aspectj.version>1.9.4</aspectj.version>
+        <allure.maven-plugin.version>2.10.0</allure.maven-plugin.version>
+        <allure.version>2.13.0</allure.version>
+        <allure.tms.link>https://jira.clickatell.com/browse/{}</allure.tms.link>
+        <allure.issue.link>https://jira.clickatell.com/browse/{}</allure.issue.link>
+
         <suite>smoke</suite>
     </properties>
 
-
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${surefire.version}</version>
+                <version>${maven.surefire.plugin.version}</version>
                 <configuration>
+                    <argLine>-Xms512m -Xmx8192m</argLine>
+                    <testFailureIgnore>true</testFailureIgnore>
+                    <argLine>${surefire.argline}</argLine>
                     <suiteXmlFiles>
                         <suiteXmlFile>${surefire.suiteXmlFiles}</suiteXmlFile>
                     </suiteXmlFiles>
@@ -58,54 +69,97 @@
                             <value>${surefire.useDefaultListeners}</value>
                         </property>
                     </properties>
+                    <systemPropertyVariables>
+                        <allure.results.directory>${project.build.directory}${file.separator}allure-results</allure.results.directory>
+                        <allure.link.tms.pattern>${allure.tms.link}</allure.link.tms.pattern>
+                        <allure.link.issue.pattern>${allure.issue.link}</allure.link.issue.pattern>
+                    </systemPropertyVariables>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjweaver</artifactId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>${allure.maven-plugin.version}</version>
+                <configuration>
+                    <reportDirectory>${project.basedir}${file.separator}allure-report</reportDirectory>
+                    <reportVersion>${allure.version}</reportVersion>
                 </configuration>
             </plugin>
 
             <plugin>
-                <artifactId>maven-clean-plugin</artifactId>
-                <configuration>
-                    <filesets>
-                        <fileset>
-                            <directory>${project.basedir}${file.separator}allure-report</directory>
-                        </fileset>
-                    </filesets>
-                </configuration>
-                <version>${maven.clean-plugin.verions}</version>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <configuration>
+<!--                            <target>-->
+<!--                                <copy-->
+<!--                                        file="src${file.separator}test${file.separator}resources${file.separator}environment.properties"-->
+<!--                                        overwrite="true"-->
+<!--                                        todir="${project.build.directory}${file.separator}allure-results"/>-->
+<!--                            </target>-->
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                </configuration>
-            </plugin>
-
         </plugins>
     </build>
 
 
     <dependencies>
-
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
-            <version>5.6.1</version>
+            <version>${selenide.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${testng.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>6.14.3</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${restassured.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-testng</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-selenide</artifactId>
+            <version>2.13.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>${javafaker.version}</version>
+        </dependency>
     </dependencies>
 
 </project>
