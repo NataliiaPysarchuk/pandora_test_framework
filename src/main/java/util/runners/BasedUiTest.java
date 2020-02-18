@@ -1,15 +1,17 @@
 package util.runners;
 
-import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.testng.annotations.BeforeMethod;
 
 public class BasedUiTest {
 
     @BeforeMethod
-    public void setUp (){
-        final String url = "http://www.google.com" ;
+    public void setUp() {
+        Configuration.startMaximized = true;
+        Configuration.fastSetValue = true;
 
-        Selenide.open(url);
-
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(false));
     }
 }
