@@ -1,4 +1,4 @@
-package pandora_tests;
+package pandora_tests.cl_2;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.TmsLink;
@@ -10,7 +10,6 @@ import static com.codeborne.selenide.Condition.matchText;
 import static page_object.HomePage.homePage;
 
 public class PriceOfBraceletGoldSnitchTest extends BasedUiTest {
-
 
     @Test
     @Description ("Check the name of bracelet and price")
