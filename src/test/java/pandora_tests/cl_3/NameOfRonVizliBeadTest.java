@@ -1,4 +1,4 @@
-package pandora_tests;
+package pandora_tests.cl_3;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.TmsLink;

@@ -21,6 +21,7 @@ public class ShopPage {
     private SelenideElement searchField = $(By.id("head_search"));
     private SelenideElement searchFieldOpen = $(By.name("q"));
     private SelenideElement beadHarryPotter = $(By.xpath("//div[@class='one-most-descr']"));
+    private SelenideElement basket = $(By.xpath("//div[@class='user-menu']/a[4]']"));
 
 
     public ShopPage searchFor(final String searchValue) {
@@ -38,8 +39,24 @@ public class ShopPage {
         menuBracelets.click();
         return new BraceletsPage();
     }
+
     public BeadsPage goToMenuBeads() {
         menuBeads.click();
         return new BeadsPage ();
+    }
+
+    public EarringsPage goToMenuEarrings() {
+        menuEarrings.click();
+        return new EarringsPage ();
+    }
+
+    public CarePage goToMenuCare() {
+        menuCare.click();
+        return new CarePage();
+    }
+
+    public BasketPage goToBasketPage() {
+        basket.click();
+        return new BasketPage();
     }
 }

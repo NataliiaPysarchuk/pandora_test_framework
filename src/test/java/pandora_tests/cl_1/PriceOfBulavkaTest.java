@@ -1,6 +1,5 @@
-package pandora_tests;
+package pandora_tests.cl_1;
 
-import com.codeborne.selenide.Condition;
 import io.qameta.allure.Description;
 import io.qameta.allure.TmsLink;
 import org.testng.annotations.Test;
