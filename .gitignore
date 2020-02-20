@@ -151,4 +151,6 @@ hs_err_pid*
 
 pandora_test_framework.iml
 allure-report
+.idea
+.allure
 
