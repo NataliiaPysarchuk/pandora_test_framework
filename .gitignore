@@ -153,4 +153,5 @@ pandora_test_framework.iml
 allure-report
 .idea
 .allure
+build
 
